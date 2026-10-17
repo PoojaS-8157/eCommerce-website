@@ -1,0 +1,74 @@
+<section class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Welcome back</h1>
+      <p>Log in to continue to your account.</p>
+    </div>
+@if (isLoginFormVisible) {
+    <form class="login-form" (ngSubmit)="OnLoginUser()">
+      <div class="field-group">
+        <label for="email">Mobile Number</label>
+        <input id="email" type="tel" [(ngModel)]="loginUser.UserName" name="email" placeholder="Enter your mobile number" />
+      </div>
+
+      <div class="field-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="loginUser.UserPassword" name="password" placeholder="••••••••" />
+      </div>
+
+      <div class="options-row">
+        <label class="remember-me">
+          <input type="checkbox" />
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="link-text">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="primary-btn">Log In</button>
+
+      <p class="auth-switch">
+        Don’t have an account?
+        <a class="link-text" (click)="toggleFormVisibility()">Sign up</a>
+      </p>
+
+      <!-- <div class="divider"><span>OR</span></div> -->
+
+      <!-- <button type="button" class="google-btn">
+        <span class="google-mark">G</span>
+        Continue with Google
+      </button> -->
+    </form>
+} @else {
+    <form class="login-form" (ngSubmit)="OnRegisterUser()">
+        <div class="field-group">
+            <label for="name">Enter your Name</label>
+            <input id="name" [(ngModel)]="registerUser.Name" name="name" type="text" placeholder="Your Name" />
+        </div>
+    
+        <div class="field-group">
+            <label for="mobile">Mobile Number</label>
+            <input id="mobile" [(ngModel)]="registerUser.MobileNo" name="mobile" type="tel" placeholder="Enter your mobile number" />
+        </div>
+    
+        <div class="field-group">
+            <label for="password">Password</label>
+            <input id="password" [(ngModel)]="registerUser.Password" name="password" type="password" placeholder="••••••••" />
+        </div>
+    
+        <button type="submit" class="primary-btn">Register</button>
+
+        <p class="auth-switch">
+          Already have an account?
+          <a class="link-text" (click)="toggleFormVisibility()">Sign In</a>
+        </p>
+    
+        <!-- <div class="divider"><span>OR</span></div>
+    
+        <button type="button" class="google-btn">
+            <span class="google-mark">G</span>
+            Continue with Google
+        </button> -->
+    </form>
+}
+  </div>
+</section>

@@ -1,0 +1,133 @@
+<section class="hero-section">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">New season essentials</span>
+      <h1>Elevate your everyday with premium essentials.</h1>
+      <p>
+        Discover thoughtfully curated gadgets, lifestyle pieces, and statement accessories
+        built for modern living.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/products" class="primary-action">Shop now</a>
+        <a routerLink="/checkout" class="secondary-action">View cart</a>
+      </div>
+      <div class="hero-metrics">
+        <div>
+          <strong>12k+</strong>
+          <span>Happy shoppers</span>
+        </div>
+        <div>
+          <strong>4.9/5</strong>
+          <span>Customer rating</span>
+        </div>
+        <div>
+          <strong>2-day</strong>
+          <span>Fast delivery</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-label="Featured product showcase">
+      <div class="feature-card feature-card-large">
+        <span class="tag">Featured drop</span>
+        <h3>Nordic Pro Speaker</h3>
+        <p>$249</p>
+      </div>
+      <div class="feature-card feature-card-small">
+        <span class="tag">Bestseller</span>
+        <h3>Travel Kit</h3>
+        <p>$89</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="container">
+    <div class="category-filter-shell">
+      <div class="category-filter-bar" aria-label="Product categories">
+        @if ($categoryList | async; as categories) {
+          @for (category of categories; track category.categoryId) {
+            <button
+              type="button"
+              class="filter-chip"
+              [class.active]="selectedCategory() === category.categoryId"
+              (click)="selectCategory(category.categoryId)"
+            >
+              {{ category.categoryName }}
+            </button>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div>
+        <span class="eyebrow">Curated picks</span>
+        <h2>Trending products</h2>
+      </div>
+      <a routerLink="/products" class="section-link">Explore all</a>
+    </div>
+
+    <div class="product-grid">
+        @for (product of productList(); track $index) {
+        <article class="product-card">
+            <img class="product-image" [src]="product.productImageUrl" [alt]="product.productName" />
+            <div class="product-content">
+                <div class="product-meta">
+                    <span class="rating">★★★★★</span>
+                    <span class="stock">In stock</span>
+                </div>
+                <h3>{{ product.productName }}</h3>
+                <p class="product-description">{{ product.productDescription }}</p>
+                <div class="product-footer">
+                    <span class="price">₹{{ product.productPrice }}</span>
+                    <div class="product-cta">
+                      @if (getQuantity(product.productId) > 0) {
+                        <div class="qty-controls">
+                          <button type="button" class="qty-btn" (click)="decreaseQuantity(product.productId)">-</button>
+                          <span class="qty">{{ getQuantity(product.productId) }}</span>
+                          <button type="button" class="qty-btn" (click)="increaseQuantity(product.productId)">+</button>
+                        </div>
+                      } @else {
+                        <button type="button" class="add-to-cart" (click)="addToCart(product.productId)">Add to Cart</button>
+                      }
+                    </div>
+                </div>
+            </div>
+        </article>
+        } @empty {
+        <div class="no-products-found" role="status" aria-live="polite">
+            <div class="empty-icon">
+                <i class="bi bi-box-seam"></i>
+            </div>
+            <h3>No products found</h3>
+            <p>There are no items in this category right now. Try another category or browse our full collection.</p>
+            <button type="button" class="empty-action" (click)="selectCategory(0)">
+                Browse all products
+            </button>
+        </div>
+        }
+    </div>
+  </div>
+</section>
+
+<section class="benefits-section">
+  <div class="container benefits-grid">
+    <div class="benefit-item">
+      <span class="benefit-icon">01</span>
+      <h3>Fast shipping</h3>
+      <p>Free delivery on orders above $75 with express handling.</p>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">02</span>
+      <h3>Secure checkout</h3>
+      <p>Protected payments and transparent delivery status.</p>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-icon">03</span>
+      <h3>Curated quality</h3>
+      <p>Selected essentials designed for comfort, utility, and style.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,93 @@
+<section class="catalog-page">
+  <div class="container catalog-layout">
+    <aside class="filters-panel">
+      <div class="panel-header">
+        <h2>Filters</h2>
+        <button type="button" class="text-button">Clear all</button>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <div class="filter-list">
+          <label><input type="checkbox" checked /> Audio</label>
+          <label><input type="checkbox" checked /> Lighting</label>
+          <label><input type="checkbox" /> Travel</label>
+          <label><input type="checkbox" /> Wearables</label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Price</label>
+        <div class="range-row">
+          <span>$20</span>
+          <input type="range" min="20" max="300" value="180" />
+          <span>$300</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Rating</label>
+        <div class="filter-list">
+          <label><input type="radio" name="rating" checked /> 4.0 & above</label>
+          <label><input type="radio" name="rating" /> 4.5 & above</label>
+          <label><input type="radio" name="rating" /> 5.0 only</label>
+        </div>
+      </div>
+    </aside>
+
+    <main class="catalog-results">
+      <div class="toolbar">
+        <div>
+          <span class="eyebrow">New arrivals</span>
+          <h1>Shop all products</h1>
+        </div>
+
+        <div class="toolbar-actions">
+          <label class="search-box">
+            <span>Search</span>
+            <input type="text" placeholder="Search products" />
+          </label>
+
+          <label class="sort-box">
+            <span>Sort by</span>
+            <select>
+              <option>Featured</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Newest</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="product-grid">
+        <article
+          class="product-card"
+          *ngFor="let product of products"
+          (click)="goToProduct(product.id)"
+          tabindex="0"
+          (keydown.enter)="goToProduct(product.id)"
+          (keydown.space)="goToProduct(product.id)"
+        >
+          <img
+            class="product-image"
+            [src]="product.productImageUrl || 'https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=80'"
+            [alt]="product.productName"
+          />
+          <div class="product-content">
+            <div class="product-meta">
+              <span class="rating">★★★★★</span>
+              <span class="stock">In stock</span>
+            </div>
+            <h3>{{ product?.productName }}</h3>
+            <p class="product-description">{{ product?.productDescription }}</p>
+            <div class="product-footer">
+              <span class="price">${{ product?.productPrice }}</span>
+              <button type="button" class="add-to-cart" >Add to Cart</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+  </div>
+</section>

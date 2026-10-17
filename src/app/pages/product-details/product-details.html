@@ -1,0 +1,55 @@
+<section class="product-details-page" *ngIf="product as currentProduct; else notFound">
+  <div class="container product-layout">
+    <div class="product-gallery">
+      <img
+        class="product-image product-image-large"
+        [src]="currentProduct.image || 'https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=900&q=80'"
+        [alt]="currentProduct.name"
+      />
+    </div>
+
+    <div class="product-info">
+      <span class="badge">{{ currentProduct.badge }}</span>
+      <h1>{{ currentProduct.name }}</h1>
+      <div class="meta-row">
+        <span class="rating">★★★★★</span>
+        <span class="category">{{ currentProduct.category }}</span>
+      </div>
+      <div class="price-row">
+        <span class="price">${{ currentProduct.price }}</span>
+        <span class="shipping">Free shipping</span>
+      </div>
+
+      <p class="description">{{ currentProduct.longDescription }}</p>
+
+      <div class="purchase-actions">
+        <button type="button" class="primary-action" (click)="addToCart()">Add to Cart</button>
+        <button type="button" class="secondary-action" routerLink="/products">Continue Shopping</button>
+      </div>
+
+      <div class="info-panel">
+        <div>
+          <span>Material</span>
+          <strong>Premium alloy / fabric</strong>
+        </div>
+        <div>
+          <span>Delivery</span>
+          <strong>2–4 business days</strong>
+        </div>
+        <div>
+          <span>Warranty</span>
+          <strong>12-month support</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #notFound>
+  <section class="product-details-page">
+    <div class="container empty-state">
+      <h2>Product not found</h2>
+      <a routerLink="/products" class="secondary-action">Back to products</a>
+    </div>
+  </section>
+</ng-template>

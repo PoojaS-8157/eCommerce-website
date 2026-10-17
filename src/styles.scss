@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/scss/bootstrap';
+
+:root {
+  --bg-dark: #0b0f19;
+  --bg-surface: #111827;
+  --bg-panel: #1f2937;
+  --bg-panel-alt: #2b3442;
+  --text-primary: #f8fafc;
+  --text-secondary: #a1a9b5;
+  --border-soft: rgba(148, 163, 184, 0.2);
+  --accent-primary: #3b82f6;
+  --accent-secondary: #f59e0b;
+  --accent-success: #22c55e;
+  --accent-danger: #ef4444;
+  --shadow-soft: 0 16px 32px rgba(15, 23, 42, 0.28);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0b0f19 0%, #111827 100%);
+  color: var(--text-primary);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
