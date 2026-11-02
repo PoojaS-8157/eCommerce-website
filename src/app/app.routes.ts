@@ -5,6 +5,7 @@ import { Login } from './pages/login/login';
 import { MyOrders } from './pages/my-orders/my-orders';
 import { ProductDetails } from './pages/product-details/product-details';
 import { ProductList } from './pages/product-list/product-list';
+import { authGuard } from './guard/auth-guard';
 
 export const routes: Routes = [
   {
@@ -14,7 +15,8 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: Home
+    component: Home,
+    canActivate: [authGuard]
   },
   {
     path: 'login',
@@ -22,18 +24,26 @@ export const routes: Routes = [
   },
   {
     path: 'products',
-    component: ProductList
+    component: ProductList,
+    canActivate: [authGuard]
   },
   {
     path: 'checkout',
-    component: CheckoutPage
+    component: CheckoutPage,
+    canActivate: [authGuard]
   },
   {
     path: 'open-product/:id',
-    component: ProductDetails
+    component: ProductDetails,
+    canActivate: [authGuard]
   },
   {
     path: 'my-orders',
-    component: MyOrders
+    component: MyOrders,
+    canActivate: [authGuard]
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
   }
 ];

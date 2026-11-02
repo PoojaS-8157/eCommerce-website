@@ -20,7 +20,7 @@
 
         <button class="cart-button" type="button" aria-label="Shopping cart" (click)="toggleCart()">
           <span>Cart</span>
-          <span class="cart-badge">{{ totalItems }}</span>
+          <span class="cart-badge">{{ totalItems$ | async }}</span>
         </button>
 
         <ng-container *ngIf="loggedInUser; else loggedOut">
@@ -61,14 +61,14 @@
           <div *ngIf="!item.productImageUrl || !item.productImageUrl.startsWith('http')" class="cart-image" [ngClass]="item.productImageUrl"></div>
           <div class="cart-item-info">
             <h3>{{ item.productName }}</h3>
-            <p>${{ item.productPrice }}</p>
+            <p>₹{{ item.productPrice }}</p>
             <div class="quantity-row">
-              <button type="button" (click)="decreaseQuantity(item.custId)">-</button>
+              <button type="button" (click)="decreaseQuantity(item.productId)">-</button>
               <span>{{ item.quantity }}</span>
-              <button type="button" (click)="increaseQuantity(item.custId)">+</button>
+              <button type="button" (click)="increaseQuantity(item.productId)">+</button>
             </div>
           </div>
-          <button class="remove-item" type="button" (click)="removeItem(item.custId)">Remove</button>
+          <button class="remove-item" type="button" (click)="removeItem(item.productId)">Remove</button>
         </article>
       </div>
 
@@ -82,13 +82,22 @@
       <div class="cart-footer" *ngIf="cartItems.length">
         <div class="summary-row">
           <span>Subtotal</span>
-          <strong>${{ subtotal }}</strong>
+          <strong>₹{{ subtotal }}</strong>
         </div>
         <button type="button" class="primary-cart-action" (click)="navigateToCheckout()">Proceed to Checkout</button>
       </div>
     </aside>
   </div>
-
+@if (userService.loading$ | async) {
+  <div class="global-loader" aria-live="polite" aria-busy="true" role="status">
+    <div class="loader-backdrop"></div>
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <span class="loader-text">Loading...</span>
+    </div>
+  </div>
+}
+  <app-global-dialog />
   <main class="page-shell">
     <router-outlet />
   </main>

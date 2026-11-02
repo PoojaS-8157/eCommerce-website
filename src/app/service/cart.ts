@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProductItem } from './products';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 
 export interface CartItem {
   id: number;
@@ -14,9 +15,12 @@ export interface CartItem {
 })
 export class CartService {
   private cartItems: CartItem[] = [];
+  private cartItemsSubject = new BehaviorSubject<CartItem[]>([]);
+  cartItems$ = this.cartItemsSubject.asObservable();
+  productsList: Subject<CartItem[]> = new Subject<CartItem[]>();
 
   get items(): CartItem[] {
-    return [...this.cartItems];
+    return this.cartItems;
   }
 
   addItem(product: Pick<ProductItem, 'id' | 'name' | 'price' | 'image'>): void {
@@ -26,6 +30,8 @@ export class CartService {
       this.cartItems = this.cartItems.map((item) =>
         item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
       );
+      this.cartItemsSubject.next(this.cartItems);
+      this.productsList.next(this.cartItems);
       return;
     }
 
@@ -39,6 +45,8 @@ export class CartService {
         quantity: 1,
       },
     ];
+    this.cartItemsSubject.next(this.cartItems);
+    this.productsList.next(this.cartItems);
   }
 
   updateQuantity(productId: number, change: number): void {
@@ -47,14 +55,25 @@ export class CartService {
         item.id === productId ? { ...item, quantity: item.quantity + change } : item,
       )
       .filter((item) => item.quantity > 0);
+
+    this.cartItemsSubject.next(this.cartItems);
+    this.productsList.next(this.cartItems);
   }
 
   removeItem(productId: number): void {
     this.cartItems = this.cartItems.filter((item) => item.id !== productId);
+    this.cartItemsSubject.next(this.cartItems);
+    this.productsList.next(this.cartItems);
   }
 
   getTotalItems(): number {
     return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  getTotalItems$(): Observable<number> {
+    return this.cartItems$.pipe(
+      map((items) => items.reduce((total, item) => total + (item.quantity || 0), 0)),
+    );
   }
 
   getSubtotal(): number {
@@ -63,5 +82,7 @@ export class CartService {
 
   clear(): void {
     this.cartItems = [];
+    this.cartItemsSubject.next(this.cartItems);
+    this.productsList.next(this.cartItems);
   }
 }

@@ -19,9 +19,9 @@
       <div class="filter-group">
         <label class="filter-label">Price</label>
         <div class="range-row">
-          <span>$20</span>
+          <span>₹20</span>
           <input type="range" min="20" max="300" value="180" />
-          <span>$300</span>
+          <span>₹300</span>
         </div>
       </div>
 
@@ -82,7 +82,7 @@
             <h3>{{ product?.productName }}</h3>
             <p class="product-description">{{ product?.productDescription }}</p>
             <div class="product-footer">
-              <span class="price">${{ product?.productPrice }}</span>
+              <span class="price">₹{{ product?.productPrice }}</span>
               <button type="button" class="add-to-cart" >Add to Cart</button>
             </div>
           </div>

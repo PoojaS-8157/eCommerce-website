@@ -7,6 +7,9 @@ export const constants = {
     LOGIN_USER: 'Login',
     ADD_TO_CART: 'AddToCart',
     GET_CART_ITEMS: 'GetCartProductsByCustomerId?id=',
+    PLACE_ORDER: 'PlaceOrder',
+    GET_ALL_SALE_BY_CUSTOMER_ID: 'GetAllSaleByCustomerId?id=',
+    OPEN_SALE_BY_SALE_ID: 'OpenSaleBySaleId?saleId='
   },
   LOGIN_AUTH_KEY: 'ecommerce_user'
 };

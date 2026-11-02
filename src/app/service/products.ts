@@ -6,7 +6,8 @@ import { map, Observable, Subject } from 'rxjs';
 import { ApiResponse } from '../model/Api.Response.model';
 import { IProduct } from '../model/Product.model';
 import { ICategory } from '../model/Categories.model';
-import { ICartItem, ICartItemDetails } from '../model/user.model';
+import { ICartItem, ICartItemDetails, IPlaceOrderModel } from '../model/user.model';
+import { env } from 'process';
 
 
 export interface ProductItem {
@@ -26,44 +27,6 @@ export interface ProductItem {
 })
 export class Products {
   http = inject(HttpClient);
-  productsList: Subject<ICartItemDetails[]> = new Subject<ICartItemDetails[]>();
-
-  private readonly catalog: ProductItem[] = [
-    {
-      id: 1,
-      name: 'Classic Leather Jacket',
-      category: 'Men',
-      price: 299,
-      rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80',
-      description: 'Premium faux leather jacket with a structured silhouette.',
-      longDescription: 'Designed for everyday wear, this jacket offers a modern fit, soft inner lining, and durable finish.',
-      badge: 'Best Seller',
-    },
-    {
-      id: 2,
-      name: 'Urban Running Shoes',
-      category: 'Sports',
-      price: 149,
-      rating: 4.6,
-      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80',
-      description: 'Lightweight sneakers built for comfort and movement.',
-      longDescription: 'These performance shoes feature responsive cushioning, breathable mesh, and all-day support.',
-      badge: 'New',
-    },
-    {
-      id: 3,
-      name: 'Minimalist Smart Watch',
-      category: 'Electronics',
-      price: 219,
-      rating: 4.7,
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80',
-      description: 'Elegant smartwatch with fitness tracking and notifications.',
-      longDescription: 'Stay connected and on top of your goals with a sleek, durable device and intuitive display.',
-      badge: 'Popular',
-    },
-  ];
-
   getAllProducts(): Observable<ApiResponse<IProduct[]>> {
     return this.http.get<ApiResponse<IProduct[]>>(environment.API_URL + constants.API_ENDPOINTS.ALL_PRODUCTS);
   }
@@ -91,12 +54,14 @@ export class Products {
     return this.http.get<ApiResponse<ICartItem[]>>(environment.API_URL + constants.API_ENDPOINTS.GET_CART_ITEMS + customerId);
   }
 
-
-  getProducts(): ProductItem[] {
-    return this.catalog;
+  placeOrder(orderData: any): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(environment.API_URL + constants.API_ENDPOINTS.PLACE_ORDER, orderData);
+  }
+  getAllSaleByCustomerID(sallerId: number): Observable<ApiResponse<IPlaceOrderModel[]>>{
+    return this.http.get<ApiResponse<IPlaceOrderModel[]>>(environment.API_URL + constants.API_ENDPOINTS.GET_ALL_SALE_BY_CUSTOMER_ID + sallerId);
   }
 
-  getProductById(id: number): ProductItem | undefined {
-    return this.catalog.find((product) => product.id === id);
+  openSaleBySaleId(saleId: number): Observable<ApiResponse<ICartItemDetails[]>>{
+    return this.http.get<ApiResponse<ICartItemDetails[]>>(environment.API_URL + constants.API_ENDPOINTS.OPEN_SALE_BY_SALE_ID + saleId)
   }
 }

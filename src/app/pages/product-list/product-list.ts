@@ -35,15 +35,15 @@ export class ProductList {
     this.router.navigate(['/open-product', productId]);
   }
 
-  addToCart(event: Event, productId: number): void {
-    event.stopPropagation();
-    const product = this.productsService.getProductById(productId);
+  // addToCart(event: Event, productId: number): void {
+  //   event.stopPropagation();
+  //   const product = this.productsService.getProductById(productId);
 
-    if (!product) {
-      return;
-    }
+  //   if (!product) {
+  //     return;
+  //   }
 
-    this.cartService.addItem(product);
-    this.router.navigate(['/checkout']);
-  }
+  //   this.cartService.addItem(product);
+  //   this.router.navigate(['/checkout']);
+  // }
 }

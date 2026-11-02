@@ -65,15 +65,8 @@ export class Home implements OnInit {
   }
 
   addToCart(productId: number): void {
-    // The product list is populated from the API (IProduct shape). Don't rely
-    // on the local Products.catalog when adding items — map the API product
-    // shape into the CartService expected shape.
-    const apiProduct = this.productList().find((p: any) => p.productId === productId);
+    const apiProduct = this.productList().find((p: IProduct) => p.productId === productId);
     if (!apiProduct) {
-      // fallback to local catalog if available
-      const local = this.productsService.getProductById(productId);
-      if (!local) return;
-      this.cartService.addItem({ id: local.id, name: local.name, price: local.price, image: local.image });
       return;
     }
 
@@ -81,9 +74,9 @@ export class Home implements OnInit {
       id: apiProduct.productId,
       name: apiProduct.productName,
       price: apiProduct.productPrice,
-      image: apiProduct.productImageUrl ?? ''
+      image: apiProduct.productImageUrl ?? '',
     });
-    //this.productsService.productsList.next();
+    this.cartService.productsList.next(this.cartService.items);
   }
 
   getQuantity(productId: number): number {

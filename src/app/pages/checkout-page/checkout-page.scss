@@ -29,7 +29,36 @@
 .section-header h2 {
   margin: 0;
   color: #ffffff;
-  font-size: 1.4rem;
+  font-size: 1.35rem;
+}
+
+.summary-grid {
+  margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.info-box {
+  background: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.95rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.label {
+  color: #a8a8a8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.info-box strong {
+  color: #ffffff;
+  font-size: 1rem;
 }
 
 .form-grid {
@@ -65,40 +94,58 @@
   outline: none;
 }
 
-.field-group input::placeholder {
-  color: #8a8a8a;
-}
-
-.field-group input:focus {
-  border-color: #ff6b35;
-  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.18);
-}
-
-.payment-options {
-  display: grid;
-  gap: 0.85rem;
-  margin-top: 1.25rem;
-}
-
-.payment-option {
+.status-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.95rem 1rem;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding: 0.9rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  background: #262626;
-  color: #f5f5f5;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.payment-option.selected {
-  border-color: #ff6b35;
-  background: rgba(255, 107, 53, 0.08);
+.status-label {
+  color: #d8d8d8;
+  font-weight: 600;
 }
 
-.payment-option input {
-  accent-color: #ff6b35;
+.status-badge {
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.status-badge.active {
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
+}
+
+.status-badge.cancelled {
+  background: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
+}
+
+.note-box {
+  background: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  margin-top: 1rem;
+}
+
+.note-box strong {
+  display: block;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.note-box p {
+  margin: 0;
+  color: #d7d7d7;
+  line-height: 1.5;
 }
 
 .order-summary {
@@ -129,18 +176,15 @@
   width: 56px;
   height: 56px;
   border-radius: 10px;
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
+  background: #2a2a2a;
 }
 
-.thumb-one {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(15, 23, 42, 0.9)),
-    url("https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80") center/cover;
-}
-
-.thumb-two {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.35), rgba(15, 23, 42, 0.9)),
-    url("https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80") center/cover;
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .item-info h3 {
@@ -181,42 +225,6 @@
   font-weight: 700;
 }
 
-.promo-row {
-  display: grid;
-  gap: 0.6rem;
-  margin-top: 0.2rem;
-}
-
-.promo-row label {
-  color: #d7d7d7;
-  font-size: 0.88rem;
-}
-
-.promo-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.promo-input-wrap input {
-  flex: 1;
-  height: 42px;
-  background: #2a2a2a;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9px;
-  padding: 0.7rem 0.8rem;
-  color: #fff;
-}
-
-.promo-input-wrap button {
-  border: none;
-  border-radius: 9px;
-  background: rgba(255, 107, 53, 0.18);
-  color: #ff8a5c;
-  padding: 0.7rem 0.9rem;
-  font-weight: 700;
-}
-
 .place-order-btn {
   width: 100%;
   min-height: 52px;
@@ -227,6 +235,15 @@
   color: #fff;
   font-weight: 700;
   box-shadow: 0 12px 22px rgba(255, 107, 53, 0.26);
+  &:disabled,
+  &.disabled {
+    background: #cccccc !important; // Grey background
+    color: #ffffff!important;            // Muted text
+    cursor: not-allowed !important;       // Block cursor
+    pointer-events: none;                 // Prevent click interactions
+    box-shadow: none;                     // Remove any active shadows
+    opacity: 0.8;
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -240,16 +257,8 @@
 }
 
 @media (max-width: 575.98px) {
+  .summary-grid,
   .form-grid {
     grid-template-columns: 1fr;
-  }
-
-  .promo-input-wrap {
-    flex-direction: column;
-  }
-
-  .promo-input-wrap input,
-  .promo-input-wrap button {
-    width: 100%;
   }
 }

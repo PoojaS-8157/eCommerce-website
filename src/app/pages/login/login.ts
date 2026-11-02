@@ -4,6 +4,7 @@ import { ILoginUser, RegisterUser } from '../../model/user.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { constants } from '../../constant/Constant';
+import { GlobalDialogService } from '../../global-dialog.service';
 
 @Component({
   selector: 'app-login',
@@ -15,20 +16,29 @@ export class Login {
   isLoginFormVisible = true;
   userService = inject(UserLogin);
   router = inject(Router);
+  dialogService = inject(GlobalDialogService);
   registerUser: RegisterUser = new RegisterUser(0, '', '', '');
   loginUser: ILoginUser = { UserName: '', UserPassword: '' };
 
-  toggleFormVisibility(): void {
+  toggleFormVisibility(): void {  
     this.isLoginFormVisible = !this.isLoginFormVisible;
   }
 
   OnRegisterUser(): void {
     this.userService.registerUser(this.registerUser).subscribe({
       next: (response) => {
-        alert(response.message);
+        this.dialogService.open({
+          title: 'Registration successful',
+          message: response?.message || 'Your account was created successfully.',
+          type: 'success',
+        });
       },
       error: (error) => {
-        alert(error.message);
+        this.dialogService.open({
+          title: 'Registration failed',
+          message: error?.message || 'Unable to register your account right now.',
+          type: 'error',
+        });
       }
     });
  }
@@ -38,14 +48,27 @@ export class Login {
         if (response.result) {
           localStorage.setItem(constants.LOGIN_AUTH_KEY, JSON.stringify(response.data));
           this.userService.userLoggedIn.next();
-          alert(response.message);
+          this.userService.readUsersData();
+          this.dialogService.open({
+            title: 'Login successful',
+            message: response?.message || 'Welcome back!',
+            type: 'success',
+          });
           this.router.navigateByUrl('/home');
         } else {
-          alert(response.message);
+          this.dialogService.open({
+            title: 'Login failed',
+            message: response?.message || 'Invalid username or password.',
+            type: 'error',
+          });
         }
       },
       error: (error) => {
-        alert(error.message);
+        this.dialogService.open({
+          title: 'Login failed',
+          message: error?.message || 'Unable to log in right now.',
+          type: 'error',
+        });
       }
     });
   }

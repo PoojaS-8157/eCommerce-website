@@ -7,101 +7,45 @@
       </div>
       <button type="button" class="filter-button">Filter</button>
     </div>
-
+    @for (order of (orders$ | async); track order.saleId) {
     <div class="orders-list">
+      @if (order.items && order.items.length > 0) {
       <article class="order-card">
         <div class="order-row">
           <div>
-            <span class="label">Order ID</span>
-            <strong>#10482</strong>
+            <span class="label">Order ID.</span>
+            <strong>{{ order.saleId }}</strong>
           </div>
           <div>
             <span class="label">Date</span>
-            <strong>12 Jun 2026</strong>
+            <strong>{{ order.saleDate | date:'dd MMM yyyy' }}</strong>
           </div>
           <div>
             <span class="label">Total</span>
-            <strong>$226</strong>
+            <strong>₹ {{ order.totalInvoiceAmount }}</strong>
           </div>
           <div>
             <span class="label">Status</span>
-            <span class="status-badge processing">Processing</span>
+            <span class="status-badge processing">{{ order.isCanceled ? 'Cancel' : 'Processing' }}</span>
           </div>
         </div>
 
         <div class="order-details">
           <ul>
-            <li>Urban Audio Max × 1</li>
-            <li>Minimal Desk Lamp × 1</li>
+            @for (item of order.items; track item.productId) {
+            <li>{{ item.categoryName }} - {{ item.productName }}</li>
+            }
           </ul>
+
           <div class="order-actions">
             <button type="button" class="secondary-action">Track Shipment</button>
             <button type="button" class="primary-action">Reorder</button>
           </div>
         </div>
+
       </article>
-
-      <article class="order-card">
-        <div class="order-row">
-          <div>
-            <span class="label">Order ID</span>
-            <strong>#10193</strong>
-          </div>
-          <div>
-            <span class="label">Date</span>
-            <strong>08 May 2026</strong>
-          </div>
-          <div>
-            <span class="label">Total</span>
-            <strong>$149</strong>
-          </div>
-          <div>
-            <span class="label">Status</span>
-            <span class="status-badge shipped">Shipped</span>
-          </div>
-        </div>
-
-        <div class="order-details">
-          <ul>
-            <li>Summit Backpack × 1</li>
-          </ul>
-          <div class="order-actions">
-            <button type="button" class="secondary-action">Track Shipment</button>
-            <button type="button" class="primary-action">Reorder</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="order-card">
-        <div class="order-row">
-          <div>
-            <span class="label">Order ID</span>
-            <strong>#10046</strong>
-          </div>
-          <div>
-            <span class="label">Date</span>
-            <strong>22 Apr 2026</strong>
-          </div>
-          <div>
-            <span class="label">Total</span>
-            <strong>$79</strong>
-          </div>
-          <div>
-            <span class="label">Status</span>
-            <span class="status-badge delivered">Delivered</span>
-          </div>
-        </div>
-
-        <div class="order-details">
-          <ul>
-            <li>Minimal Desk Lamp × 1</li>
-          </ul>
-          <div class="order-actions">
-            <button type="button" class="secondary-action">View Details</button>
-            <button type="button" class="primary-action">Reorder</button>
-          </div>
-        </div>
-      </article>
+      }
     </div>
+    }
   </div>
 </section>
